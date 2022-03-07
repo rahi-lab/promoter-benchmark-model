@@ -1,6 +1,6 @@
 # promoter-benchmark-model
 
-The purpose of the code is to identify the parameters of gene expression dynamics by fitting the experimentally observed data to a 2-step model of promoter induction.
+Matlab code for identification of the parameters of gene expression dynamics by fitting the experimentally observed data to a 2-step model of promoter induction.
 
 Input to the code are the values of single-cell expression data obtained by fluorescence microscopy.
 The code fits these data to an ODE model of gene expression thus obtaining the values of parameters that describe the leakiness, speed of induction, time-delays upon induction and shut-off, and the degradation rate.
