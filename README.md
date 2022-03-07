@@ -1,5 +1,5 @@
 # promoter-benchmark-model
-Matlab code for promoter induction parameters identification using a 2-step gene expression model
+This is the code for promoter induction parameters identification using a 2-step gene expression model.
 The purpose of the code is to extract the parameters of gene expression dynamics by fitting the experimentally observed data to a model for promoter induction.
 
 Input to the code are the values of single-cell expression data obtained by fluorescence microscopy.
