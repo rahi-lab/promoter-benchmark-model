@@ -1,4 +1,4 @@
-function output = run_fits(promoter_data, time, frames_on, frames_base_low, frames_off, frames_tail, x0, plotting, extract_ON, base_for_OFF)
+function output = run_fits(promoter_data, time, frames_on, frames_base_low, frames_off, frames_tail, x0, plotting, extract_ON, base_for_OFF, bound_time)
 % for 'on', will get two parameters:  i * f / 2 and t-on.  Will not get low  baseline: f * b/d/(d+f)
 % for 'off', will get two parameters: i * f / 2 and t-off. Will not get high baseline: f * (b + i)/d/(d+f)
 % i can be different between 'on' and 'off'
@@ -26,7 +26,7 @@ if(extract_ON == 1)
     y_on = promoter_data(frames_on);
     base_low = mean(y_on(frames_base_low));
     fun = @(x) sseval(x,t_on,y_on,base_low);
-    bestx_on = fminsearch(fun,x0,opts);
+    bestx_on = fminsearchbnd(fun,x0,[0 bound_time],[],opts);
     output = [output; bestx_on];
     
 else %we extract only OFF kinetics
@@ -38,7 +38,7 @@ end
 y_off = promoter_data(frames_off);
 base_high = mean(y_off(1));
 fun = @(x) sseval(x,t_off,y_off,base_high);
-bestx_off = fminsearch(fun,x0,opts);
+bestx_off = fminsearchbnd(fun,x0,[-Inf bound_time],[],opts);
 output = [output; bestx_off];
 
 %fitting tail of fluorescent protein degradation as an exponential decay

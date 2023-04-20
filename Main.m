@@ -31,7 +31,7 @@ ending_frame = 39;
 %defining time axis
 time = starting_frame*frequency_of_imaging : frequency_of_imaging : ending_frame*frequency_of_imaging;
 average = calculate_average(means);
-
+bound_time = 2.683; %lower bound for time parameters which is the ink travel time
 frames_on = 2:10; %frames on which tau-on and i are extracted
 frames_base = 1:7; %frames during which there is no activation (-60 to 0). used to calculate base
 frames_off = 28:34; %frames for finding tau-off
@@ -42,10 +42,10 @@ plotting_average = 1;
 x0 = randn(2,1); %starting point for fminsearch which is used for fitting
 
 %extracting parameters for average expression
-[b_average, i_average, d_average, tau_on_average, tau_off_average, maxl_average] = extract_cell(average, time, frames_base, frames_on, frames_off, frames_tail, x0, plotting_average, 1, 0);
+[b_average, i_average, d_average, tau_on_average, tau_off_average, maxl_average] = extract_cell(average, time, frames_base, frames_on, frames_off, frames_tail, x0, plotting_average, 1, 0, bound_time);
 
 %extracting paramters for single cells
-[b, i, d, tau_on, tau_off, leakiness, maxl,  lmaxt] = extract(means, time, frames_base, frames_on, frames_off, frames_tail, x0);
+[b, i, d, tau_on, tau_off, leakiness, maxl,  lmaxt] = extract(means, time, frames_base, frames_on, frames_off, frames_tail, x0, bound_time);
 
 %Note that the values used here are in arbitrary units obtained on the
 %microscope 

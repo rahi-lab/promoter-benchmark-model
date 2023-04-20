@@ -1,4 +1,4 @@
-function [B, I, D, T_ON, T_OFF, leakiness, maxl, lmaxt] =  extract(means, time, frames_base, frames_on, frames_off, frames_tail, x0)
+function [B, I, D, T_ON, T_OFF, leakiness, maxl, lmaxt] =  extract(means, time, frames_base, frames_on, frames_off, frames_tail, x0, bound_time)
 %this function extracts parameters for induction kinetics of single cells
 
 B = []; %array containing parameter b for single cell data
@@ -19,7 +19,7 @@ for index = 1:N_rows
     %1:max(frames_on)
     if(~isnan(sum(means(index, 1:max(frames_on)))))
         
-        [b, i, d, t_on, t_off] = extract_cell(means(index,:), time, frames_base, frames_on, frames_off, frames_tail, x0, 0, 1, 0);
+        [b, i, d, t_on, t_off] = extract_cell(means(index,:), time, frames_base, frames_on, frames_off, frames_tail, x0, 0, 1, 0, bound_time);
         
         B = [B b];
         I = [I i];
@@ -35,7 +35,7 @@ for index = 1:N_rows
     %the induction for all cells so we use mean(B) for all; this does not make a difference for degradation rate
     
     if(~isnan(sum(means(index, frames_off(1):max(frames_tail)))))
-        [b, i, d, t_on, t_off] = extract_cell(means(index,:), time, frames_base, frames_on, frames_off, frames_tail, x0, 0, 0, mean(B));
+        [b, i, d, t_on, t_off] = extract_cell(means(index,:), time, frames_base, frames_on, frames_off, frames_tail, x0, 0, 0, mean(B), bound_time);
         D = [D d];
         T_OFF = [T_OFF t_off];
         maxl = [maxl max(means(index, frames_on(1):max(frames_tail)))];
